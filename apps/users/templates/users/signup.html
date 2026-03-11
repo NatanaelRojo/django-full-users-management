@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Usuario - Crear Cuenta</title>
+</head>
+<body>
+    <header>
+        <h1>Crear una nueva cuenta</h1>
+        <p>Por favor, complete los siguientes campos para registrarse en la plataforma.</p>
+    </header>
+
+    <main>
+        <section aria-labelledby="signup-form-title">
+            <h2 id="signup-form-title" class="sr-only">Formulario de Registro</h2>
+            
+            <form method="post">
+                {% csrf_token %}
+                
+                {# Renderizamos el formulario usando párrafos para mejor lectura con NVDA #}
+                <div class="form-container">
+                    {{ form.as_p }}
+                </div>
+
+                <div class="actions">
+                    <button type="submit">Registrarse e Iniciar Sesión</button>
+                    <a href="{% url 'users:login' %}">¿Ya tienes cuenta? Inicia sesión aquí</a>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p><a href="{% url 'users:user_list' %}">Volver a la lista general</a></p>
+    </footer>
+</body>
+</html>

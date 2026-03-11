@@ -1,20 +1,16 @@
 from django.contrib import admin
-from django.urls import include, path
 from django.shortcuts import redirect
+from django.urls import include, path
 
 urlpatterns = [
     # Admin route
-    path('admin/', admin.site.urls),
-
+    path("admin/", admin.site.urls),
     # Redirigir la raíz al login de users
-    path('', lambda request: redirect('users:login'), name='root'),
-
+    path("", lambda request: redirect("users:login"), name="root"),
     # Include the URLs from person app.
-    path('', include('apps.person.urls')),
-
+    path("", include("apps.person.urls")),
     # Include the URLs from product app.
-    path('products/', include('apps.product.urls')),
-
+    path("products/", include("apps.product.urls")),
     # Include the URLs from users app.
-    path('users/', include('apps.users.urls')),
+    path("users/", include("apps.users.urls")),
 ]

@@ -1,7 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-
 """
 Modelo de usuario personalizado para la aplicación users.
 
