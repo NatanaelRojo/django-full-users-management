@@ -1,6 +1,5 @@
-from django.contrib.auth import urls as auth_urls
 from django.contrib.auth import views as auth_views
-from django.urls import include, path
+from django.urls import path, reverse_lazy
 
 from apps.users import views
 from apps.users.views import (
@@ -15,19 +14,37 @@ from apps.users.views import (
 app_name = "users"
 
 urlpatterns = [
+    # 1. Autenticación personalizada (Login / Logout / Signup)
+    path("login/", views.LoginView.as_view(), name="login"),
+    path("logout/", views.LogoutView.as_view(), name="logout"),
+    path("signup/", SignUpView.as_view(), name="signup"),
+    # 2. Vistas de recuperación de contraseña (Sobrescritas para manejar el app_name)
     path(
         "password_reset/",
         auth_views.PasswordResetView.as_view(
-            html_email_template_name="registration/password_reset_email.html"
+            html_email_template_name="registration/password_reset_email.html",
+            success_url=reverse_lazy("users:password_reset_done"),
         ),
         name="password_reset",
     ),
-    path("", include(auth_urls)),
-    path("signup/", SignUpView.as_view(), name="signup"),
-    # URLs de autenticación
-    path("login/", views.LoginView.as_view(), name="login"),
-    path("logout/", views.LogoutView.as_view(), name="logout"),
-    # Urls CRUD de usuarios
+    path(
+        "password_reset/done/",
+        auth_views.PasswordResetDoneView.as_view(),
+        name="password_reset_done",
+    ),
+    path(
+        "reset/<uidb64>/<token>/",
+        auth_views.PasswordResetConfirmView.as_view(
+            success_url=reverse_lazy("users:password_reset_complete")
+        ),
+        name="password_reset_confirm",
+    ),
+    path(
+        "reset/done/",
+        auth_views.PasswordResetCompleteView.as_view(),
+        name="password_reset_complete",
+    ),
+    # 3. Vistas CRUD de usuarios
     path("", UserListView.as_view(), name="user_list"),
     path("<int:pk>/", UserDetailView.as_view(), name="user_detail"),
     path("create/", UserCreateView.as_view(), name="user_create"),
