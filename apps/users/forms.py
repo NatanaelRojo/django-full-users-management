@@ -1,4 +1,6 @@
-from django.contrib.auth.forms import UserChangeForm, UserCreationForm
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
+
 from .models import User
 
 """
@@ -25,7 +27,7 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ("username", "email", "first_name", "last_name", "role")
 
 
-class CustomUserChangeForm(UserChangeForm):
+class CustomUserChangeForm(forms.ModelForm):
     """
     Formulario utilizado para editar instancias de User existentes.
 
